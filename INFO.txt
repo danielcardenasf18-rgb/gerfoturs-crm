@@ -1,0 +1,79 @@
+===========================================================
+  GERFOTURS CRM - SISTEMA EMPRESARIAL DE TRANSPORTE
+===========================================================
+
+1. ACCESOS WEB
+-----------------------------------------------------------
+   URL Producción:    https://gerfoturs.vercel.app
+   Login:             https://gerfoturs.vercel.app/login
+   Dashboard Vercel:  https://vercel.com/danielcardenasf18-rgbs-projects/gerfoturs
+
+2. CREDENCIALES DE ACCESO
+-----------------------------------------------------------
+   Email:    admin@gerfoturs.com
+   Password: admin123
+
+3. BASE DE DATOS (PostgreSQL - Neon)
+-----------------------------------------------------------
+   Host:     ep-fragrant-sunset-apzz1d0j.c-7.us-east-1.aws.neon.tech
+   Database: neondb
+   Usuario:  neondb_owner
+   Password: npg_AM9IEwiK4uJv
+   URL:      postgresql://neondb_owner:npg_AM9IEwiK4uJv@ep-fragrant-sunset-apzz1d0j.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require
+
+4. REPOSITORIO GIT
+-----------------------------------------------------------
+   GitHub:   https://github.com/danielcardenasf18-rgb/gerfoturs-crm.git
+   Rama:     main
+
+5. TECNOLOGÍAS
+-----------------------------------------------------------
+   Frontend:     Next.js 16 (React + TypeScript + TailwindCSS)
+   Backend:      Next.js API Routes (Node.js)
+   Base Datos:   PostgreSQL (Neon) con Prisma ORM
+   Autenticación: JWT + bcryptjs
+   PDF:          jsPDF + html2canvas
+   Despliegue:   Vercel (Production)
+
+6. ESTRUCTURA DEL PROYECTO
+-----------------------------------------------------------
+   app/                    → Páginas y API routes
+     api/                  → Endpoints REST
+       servicios/          → CRUD Servicios
+       cotizaciones/       → CRUD Cotizaciones
+       vehiculos/          → CRUD Vehículos
+       conductores/        → CRUD Conductores
+       login/              → Autenticación
+       facturacion/        → Facturación
+       mantenimiento/      → Mantenimiento
+       documentos/         → Documentos
+       contabilidad/       → Contabilidad
+       setup/              → Setup inicial (seed)
+     login/                → Página de login
+     servicios/            → Página de servicios con calendario
+     cotizaciones/         → Página de cotizaciones
+     vehiculos/            → Gestión de vehículos
+     page.tsx              → Dashboard principal
+   components/             → Componentes React
+     ServiceCalendar.tsx   → Calendario de servicios
+     ServiceModal.tsx      → Modal de servicios
+     QuotationTemplate.tsx → Template PDF de cotización
+     QuotationModal.tsx    → Modal de cotizaciones
+   prisma/                 → Schema y migraciones BD
+   lib/prisma.ts           → Cliente Prisma singleton
+
+7. COMANDOS ÚTILES
+-----------------------------------------------------------
+   Desarrollo local:    npm run dev
+   Build:               npm run build
+   Despliegue Vercel:   vercel --prod --yes
+   Seed local:          node prisma/seed.js
+
+8. PRÓXIMOS PASOS / MEJORAS PENDIENTES
+-----------------------------------------------------------
+   - Implementar recuperación de contraseña
+   - Roles de usuario (admin, operador, conductor)
+   - Dashboard con gráficos reales desde BD
+   - Notificaciones por correo electrónico
+   - Módulo de nómina
+   - App móvil para conductores
