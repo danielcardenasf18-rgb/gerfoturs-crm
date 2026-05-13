@@ -39,7 +39,8 @@ export default function QuotationModal({ onClose, onAddQuotation }: Props) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    if (!formData.cliente || !formData.ruta || !formData.valorTotal) return alert("Completa los campos obligatorios");
+    if (!formData.cliente || !formData.ruta) return alert("Completa los campos obligatorios (*)");
+    if (!formData.valorTotal || Number(formData.valorTotal) <= 0) return alert("El valor total debe ser mayor a $0");
     onAddQuotation(formData);
   };
 

@@ -31,14 +31,23 @@ export default function DocumentModal({
   onSave,
   initialData,
 }: Props) {
+  const toDateInput = (date: any) => {
+    if (!date) return "";
+    const d = new Date(date);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  };
+
   const [formData, setFormData] = useState<DocumentData>({
     nombre: initialData?.nombre || "",
     tipo: initialData?.tipo || "SOAT",
     relacionadoCon: initialData?.relacionadoCon || "General",
     relacionadoId: initialData?.relacionadoId?.toString() || "",
     entidad: initialData?.entidad || "",
-    fechaDocumento: initialData?.fechaDocumento ? new Date(initialData.fechaDocumento).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
-    fechaVencimiento: initialData?.fechaVencimiento ? new Date(initialData.fechaVencimiento).toISOString().split('T')[0] : "",
+    fechaDocumento: toDateInput(initialData?.fechaDocumento) || toDateInput(new Date()),
+    fechaVencimiento: toDateInput(initialData?.fechaVencimiento),
     archivoUrl: initialData?.archivoUrl || "",
     notas: initialData?.notas || "",
   });

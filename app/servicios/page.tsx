@@ -55,13 +55,18 @@ export default function ServiciosPage() {
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
       if (response.ok) {
         await fetchServices();
         setOpenModal(false);
         setEditingService(null);
+      } else {
+        alert("Error: " + (data.error || "No se pudo guardar el servicio."));
+        console.error("API error:", data);
       }
     } catch (error) {
       console.error("Error saving service:", error);
+      alert("Error de red al guardar el servicio.");
     }
   };
 

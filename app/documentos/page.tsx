@@ -43,13 +43,18 @@ export default function DocumentosPage() {
         body: JSON.stringify(docData),
       });
 
+      const data = await response.json();
       if (response.ok) {
         fetchDocuments();
         setIsModalOpen(false);
         setSelectedDoc(null);
+      } else {
+        alert("Error: " + (data.error || "No se pudo guardar el documento."));
+        console.error("API error:", data);
       }
     } catch (error) {
       console.error("Error saving document:", error);
+      alert("Error de red al guardar el documento.");
     }
   };
 

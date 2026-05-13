@@ -44,12 +44,17 @@ export default function CotizacionesPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+      const data = await res.json();
       if (res.ok) {
         await fetchQuotations();
         setOpenModal(false);
+      } else {
+        alert("Error: " + (data.error || "No se pudo crear la cotización. Revisa la consola para más detalles."));
+        console.error("API error:", data);
       }
     } catch (error) {
       console.error("Error adding quote:", error);
+      alert("Error de red al crear la cotización. Intenta de nuevo.");
     }
   };
 
