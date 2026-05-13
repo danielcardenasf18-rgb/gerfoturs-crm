@@ -16,13 +16,13 @@ async function main() {
 
         data: {
 
-          nombre: "Administrador",
+         
 
           email: "admin@gerfoturs.com",
 
           password: hashedPassword,
 
-          role: "admin",
+          
         },
       });
 

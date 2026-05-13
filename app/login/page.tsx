@@ -37,7 +37,7 @@ export default function LoginPage() {
     if (data.success) {
 
       document.cookie =
-  `token=${data.token}; path=/`;
+        `token=${data.token}; path=/`;
 
       router.push("/vehiculos");
 
@@ -49,13 +49,21 @@ export default function LoginPage() {
 
   return (
 
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen bg-[#0a1128] flex items-center justify-center p-6">
 
-      <div className="bg-white p-10 rounded-2xl shadow w-[400px]">
+      <div className="bg-white p-12 rounded-[3rem] shadow-2xl w-full max-w-md">
 
-        <h1 className="text-3xl font-bold mb-8 text-center">
-          GERFOTURS CRM
-        </h1>
+        <div className="text-center mb-10">
+
+          <h1 className="text-5xl font-black text-slate-900 uppercase italic">
+            GERFOTURS
+          </h1>
+
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mt-4">
+            Sistema Empresarial CRM
+          </p>
+
+        </div>
 
         <div className="space-y-4">
 

@@ -26,9 +26,7 @@ export function middleware(
 }
 
 export const config = {
-
   matcher: [
-
-    "/vehiculos/:path*",
+    "/((?!api|_next/static|_next/image|favicon.ico|login).*)",
   ],
 };

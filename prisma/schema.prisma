@@ -8,29 +8,183 @@ datasource db {
 }
 
 model Vehicle {
-
   id        Int      @id @default(autoincrement())
-
-  placa     String
-
+  placa     String   @unique
+  marca     String
   modelo    String
+  anio      Int?
+  color     String?
+  pasajeros Int?
+  tipo      String   // Buseta, Bus, Microbus, etc.
+  estado    String   // Operativo, Mantenimiento, Inactivo
+  motor     String?
+  chasis    String?
+  
+  // Documentación
+  soatVencimiento             DateTime?
+  soatAseguradora             String?
+  polizaVencimiento           DateTime?
+  polizaAseguradora           String?
+  tarjetaOperacionVencimiento DateTime?
+  rtmVencimiento              DateTime?
+  
+  propietario      String?
+  tarjetaPropiedad String?
+  observaciones    String?
 
-  estado    String
+  driverId Int?
+  driver   Driver? @relation(fields: [driverId], references: [id])
+  services Service[]
+  maintenances Maintenance[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Maintenance {
+  id           Int      @id @default(autoincrement())
+  tipo         String   // Preventivo, Correctivo, Aceite, Llantas, Frenos, Eléctrico, Otro
+  fecha        DateTime
+  proximo      DateTime?
+  costo        Float
+  taller       String?
+  estado       String   // Pendiente, En Proceso, Completado
+  descripcion  String?
+  
+  vehicleId    Int
+  vehicle      Vehicle  @relation(fields: [vehicleId], references: [id])
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Driver {
+  id       Int    @id @default(autoincrement())
+  nombre   String
+  cedula   String
+  telefono String
+  licencia String
+  estado   String
+
+  vehicles Vehicle[]
+  services Service[]
 
   createdAt DateTime @default(now())
 }
 
+model Service {
+  id          Int      @id @default(autoincrement())
+  codigo      String?  @unique
+  cliente     String
+  origen      String
+  destino     String
+  fecha       DateTime?
+  hora        String?
+  pasajeros   Int?     @default(1)
+  valor       Float
+  estado      String   // Pendiente, En Ruta, Finalizado, Cancelado
+  observaciones String?
+
+  vehicleId   Int?
+  vehicle     Vehicle? @relation(fields: [vehicleId], references: [id])
+  
+  driverId    Int?
+  driver      Driver?  @relation(fields: [driverId], references: [id])
+
+  invoices    Invoice[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Quotation {
+  id             Int      @id @default(autoincrement())
+  codigo         String   @unique
+  cliente        String
+  nit            String?
+  contacto       String?
+  fechaEmision   DateTime @default(now())
+  fechaVenc      DateTime
+
+  // Detalles del servicio
+  tipoVehiculo   String
+  capacidad      String
+  equipamiento   String?
+  ruta           String
+  tiempoEstimado String?
+  fechaServicio  DateTime?
+  horaSalida     String?
+  horaRegreso    String?
+  cantidad       Int      @default(1)
+
+  incluyePeajes    Boolean  @default(true)
+  incluyeConductor Boolean  @default(true)
+  seguroContractual Boolean @default(true)
+  seguroExtra      Boolean  @default(true)
+
+  observaciones   String?
+  condiciones     String?
+
+  valorTotal      Float
+  estado          String   @default("Enviada") // Enviada, Aprobada, Rechazada
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
 model User {
-
   id        Int      @id @default(autoincrement())
-
-  nombre    String
-
   email     String   @unique
-
   password  String
-
-  role      String   @default("empleado")
-
   createdAt DateTime @default(now())
+}
+
+model Transaction {
+  id          Int      @id @default(autoincrement())
+  tipo        String   // Ingreso, Egreso
+  fecha       DateTime
+  concepto    String
+  categoria   String   // Servicios de transporte, Combustible, Mantenimiento, Nomina, etc.
+  monto       Float
+  referencia  String?
+  notas       String?
+  documentoUrl String? // URL or path to the uploaded document
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Invoice {
+  id               Int      @id @default(autoincrement())
+  numeroFactura    String   @unique
+  fecha            DateTime
+  cliente          String
+  identificacion   String?
+  valor            Float
+  estadoPago       String   @default("Pendiente") // Pendiente, Pagado, Anulado
+  fechaVencimiento DateTime?
+  notas            String?
+  archivoUrl       String?
+
+  serviceId        Int?
+  service          Service? @relation(fields: [serviceId], references: [id])
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Document {
+  id               Int      @id @default(autoincrement())
+  nombre           String
+  tipo             String   // SOAT, RTM, Tarjeta Operacion, Licencia, etc.
+  relacionadoCon   String   // General, Vehiculo, Conductor
+  relacionadoId    Int?     // ID of the related entity if applicable
+  entidad          String?  // Aseguradora, Entidad gubernamental, etc.
+  fechaDocumento   DateTime?
+  fechaVencimiento DateTime?
+  archivoUrl       String
+  notas            String?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }

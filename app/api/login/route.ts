@@ -49,14 +49,17 @@ export async function POST(
       jwt.sign(
 
         {
+
           id: user.id,
+
           email: user.email,
-          role: user.role,
+
         },
 
         JWT_SECRET,
 
         {
+
           expiresIn: "7d",
         }
       );
