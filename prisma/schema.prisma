@@ -160,6 +160,25 @@ model Invoice {
   fecha            DateTime
   cliente          String
   identificacion   String?
+  telefono         String?
+  correo           String?
+  direccion        String?
+  ciudadOrigen     String?
+  ciudadDestino    String?
+  tipoServicio     String?
+  descripcion      String?
+  cantidadPasajeros Int?
+  vehiculo         String?
+  placa            String?
+  conductor        String?
+  fechaSalida      DateTime?
+  horaSalida       String?
+  fechaLlegada     DateTime?
+  horaLlegada      String?
+  observaciones    String?
+  subtotal         Float?
+  descuento        Float?
+  iva              Float?
   valor            Float
   estadoPago       String   @default("Pendiente") // Pendiente, Pagado, Anulado
   fechaVencimiento DateTime?
@@ -187,4 +206,18 @@ model Document {
 
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  titulo    String
+  mensaje   String
+  tipo      String   // Recordatorio, Alerta, Info
+  leida     Boolean  @default(false)
+  fecha     DateTime @default(now())
+  
+  // Opcional: enlace a la entidad relacionada
+  link      String?
+
+  createdAt DateTime @default(now())
 }

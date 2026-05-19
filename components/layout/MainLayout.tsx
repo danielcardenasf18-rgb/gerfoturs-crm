@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Sidebar from "../Sidebar";
 import { Menu } from "lucide-react";
+import NotificationBell from "../NotificationBell";
 
 export default function MainLayout({
   children,
@@ -60,6 +61,7 @@ export default function MainLayout({
           </div>
 
           <div className="flex items-center gap-3 md:gap-4">
+            <NotificationBell />
             <div className="flex flex-col items-end hidden md:flex text-right">
               <p className="text-xs font-bold text-slate-900 leading-none">Administrador</p>
               <p className="text-[9px] font-medium text-slate-400 mt-1 uppercase tracking-tighter">Gerencia General</p>

@@ -61,11 +61,29 @@ export default function TransactionModal({
     if (!file) return;
 
     setUploading(true);
-    // Simulating file upload - in a real app, you'd send to S3 or a local API
-    setTimeout(() => {
-      setFormData(prev => ({ ...prev, documentoUrl: `/uploads/${file.name}` }));
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("type", "transactions");
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.url) {
+        setFormData(prev => ({ ...prev, documentoUrl: data.url }));
+      } else {
+        alert("Error al subir el archivo: " + (data.error || "Desconocido"));
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Error de red al intentar subir el archivo.");
+    } finally {
       setUploading(false);
-    }, 1000);
+    }
   };
 
   const handleSave = () => {

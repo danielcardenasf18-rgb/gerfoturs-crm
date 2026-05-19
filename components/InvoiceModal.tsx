@@ -62,11 +62,30 @@ export default function InvoiceModal({
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
-    // Simulating file upload
-    setTimeout(() => {
-      setFormData(prev => ({ ...prev, archivoUrl: `/uploads/invoices/${file.name}` }));
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("type", "invoices");
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.url) {
+        setFormData(prev => ({ ...prev, archivoUrl: data.url }));
+      } else {
+        alert("Error al subir el archivo: " + (data.error || "Desconocido"));
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Error de red al intentar subir el archivo.");
+    } finally {
       setUploading(false);
-    }, 1000);
+    }
   };
 
   const handleSave = () => {
